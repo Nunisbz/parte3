@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import {
+const React, { useState } = 'react'
+const {
     View,
     Text,
     TextInput,
@@ -9,41 +9,41 @@ import {
     Alert,
     Modal,
     TouchableOpacity,
-} from 'react-native';
-import api from '../../constants/api';
+} = 'react-native'
+const api = '../../constants/api'
 
 const Login = ({ navigation }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [modalVisible, setModalVisible] = useState(false);
-    const [currentUser, setCurrentUser] = useState(null);
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [modalVisible, setModalVisible] = useState(false)
+    const [currentUser, setCurrentUser] = useState(null)
 
     const handleLogin = async () => {
         try {
-            const response = await api.post('/auth/login', { email, password });
-            const user = response.data.user;
-            setCurrentUser(user);
+            const response = await api.post('/auth/login', { email, password })
+            const user = response.data.user
+            setCurrentUser(user)
             if (!user.is_subscriber) {
-                setModalVisible(true);
+                setModalVisible(true)
             } else {
-                Alert.alert('Login successful', `Welcome back, ${user.name}!`);
-                navigation.replace('Home');
+                Alert.alert('Login successful', `Welcome back, ${user.name}!`)
+                navigation.replace('Home')
             }
         } catch (error) {
-            Alert.alert('Login failed', error.response?.data?.error || 'Something went wrong');
+            Alert.alert('Login failed', error.response?.data?.error || 'Something went wrong')
         }
-    };
+    }
 
     const handleSubscribe = async () => {
         try {
-            await api.put('/auth/subscription', { userId: currentUser.id, isSubscriber: true });
-            setModalVisible(false);
-            Alert.alert('Subscription successful', 'You are now a subscriber!');
-            navigation.replace('Home');
+            await api.put('/auth/subscription', { userId: currentUser.id, isSubscriber: true })
+            setModalVisible(false)
+            Alert.alert('Subscription successful', 'You are now a subscriber!')
+            navigation.replace('Home')
         } catch (error) {
-            Alert.alert('Subscription failed', error.response?.data?.error || 'Something went wrong');
+            Alert.alert('Subscription failed', error.response?.data?.error || 'Something went wrong')
         }
-    };
+    }
 
     return (
         <View style={styles.container}>
@@ -85,8 +85,8 @@ const Login = ({ navigation }) => {
                 </View>
             </Modal>
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -143,6 +143,6 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
     },
-});
+})
 
-export default Login;
+module.exports = Login

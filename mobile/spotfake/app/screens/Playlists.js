@@ -1,6 +1,6 @@
 
-import React, { useEffect, useState } from 'react';
-import {
+const React, { useEffect, useState } = 'react'
+const {
     View,
     Text,
     FlatList,
@@ -8,46 +8,46 @@ import {
     TouchableOpacity,
     StyleSheet,
     Animated,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import api from '../../constants/api';
+} = 'react-native'
+const Icon = 'react-native-vector-icons/MaterialIcons'
+const api = '../../constants/api'
 
 const Playlists = ({ navigation }) => {
-    const [playlists, setPlaylists] = useState([]);
-    const [newPlaylistName, setNewPlaylistName] = useState('');
-    const fadeAnim = new Animated.Value(0); // Animation for fade-in effect
+    const [playlists, setPlaylists] = useState([])
+    const [newPlaylistName, setNewPlaylistName] = useState('')
+    const fadeAnim = new Animated.Value(0) // Animation for fade-in effect
 
     useEffect(() => {
         const fetchPlaylists = async () => {
             try {
-                const response = await api.get('/playlists');
-                setPlaylists(response.data);
+                const response = await api.get('/playlists')
+                setPlaylists(response.data)
                 Animated.timing(fadeAnim, {
                     toValue: 1,
                     duration: 500,
                     useNativeDriver: true,
-                }).start();
+                }).start()
             } catch (error) {
-                console.error('Error fetching playlists:', error);
+                console.error('Error fetching playlists:', error)
             }
-        };
-        fetchPlaylists();
-    }, []);
+        }
+        fetchPlaylists()
+    }, [])
 
     const createPlaylist = async () => {
-        if (!newPlaylistName) return;
+        if (!newPlaylistName) return
 
         try {
             const response = await api.post('/playlists', {
                 name: newPlaylistName,
                 ownerId: 1, // Simulated user ID for simplicity
-            });
-            setPlaylists([...playlists, response.data]);
-            setNewPlaylistName('');
+            })
+            setPlaylists([...playlists, response.data])
+            setNewPlaylistName('')
         } catch (error) {
-            console.error('Error creating playlist:', error);
+            console.error('Error creating playlist:', error)
         }
-    };
+    }
 
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
@@ -80,8 +80,8 @@ const Playlists = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
         </Animated.View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -119,6 +119,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-});
+})
 
-export default Playlists;
+module.exports = Playlists

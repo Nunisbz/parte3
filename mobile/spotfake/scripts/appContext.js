@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+const { createContext, useState } = "react"
 
 export const AppContext = createContext()
 export const AppProvider = ({ children }) => {

@@ -1,47 +1,38 @@
 
-import db from '../db.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-
-const SECRET_KEY = 'your_secret_key';
-
+const db = '../db.js'
+const bcrypt = 'bcrypt'
+const jwt = 'jsonwebtoken'
+const SECRET_KEY = 'your_secret_key'
+// Helper function to hash passwords
+async function hashPassword(password) {
+    return await bcrypt.hash(password, 10)
+}
+// Register a new user
 export const register = async (req, res) => {
-    const { email, password, name } = req.body;
+    const { email, password, name } = req.body
     try {
-        const user = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+        const existing = await db.query('SELECT * FROM users WHERE email = $1', [email])
         if (existing.rows.length > 0) {
-            return res.status(400).json({ error: 'Email already in use' });
+            return res.status(400).json({ error: 'Email already in use' })
         }
-
-async function hashPassword(password) {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    return hashedPassword;
-}
+        const hashedPassword = await hashPassword(password)
         await db.query(
             'INSERT INTO users (email, password, name, created_at, is_subscriber) VALUES ($1, $2, $3, NOW(), FALSE)',
             [email, hashedPassword, name]
-        );
-
-        res.status(201).json({ message: ' registered successfully' });
+        )
+        res.status(201).json({ message: 'User registered successfully' })
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message })
     }
-};
-
+// Login user
 export const login = async (req, res) => {
-    const { email, password } = req.body;
-    try {
-        const user = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+    const { email, password } = req.body
+        const user = await db.query('SELECT * FROM users WHERE email = $1', [email])
         if (user.rows.length === 0) {
-            return res.status(401).json({ error: 'Invalid email or password' });
-        }
-
-        const isValid = await bcrypt.compare(password, user.rows[0].password);
+            return res.status(401).json({ error: 'Invalid email or password' })
+        const isValid = await bcrypt.compare(password, user.rows[0].password)
         if (!isValid) {
-            return res.status(401).json({ error: 'Invalid email or password' });
-        }
-
-        const token = jwt.sign({ userId: user.rows[0].id }, SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.rows[0].id }, SECRET_KEY, { expiresIn: '1h' })
         res.status(200).json({
             token,
             user: {
@@ -50,61 +41,4 @@ export const login = async (req, res) => {
                 name: user.rows[0].name,
                 is_subscriber: user.rows[0].is_subscriber,
             },
-        });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-
- (req, res) => {
-    const { email, password } = req.body;
-    try {
-        const user = await db.query('SELECT * FROM users WHERE email = $1', [email]);
-        if (user.rows.length === 0) {
-            return res.status(401).json({ error: 'Invalid email or password' });
-        }
-
-        const isValid = await bcrypt.compare(password, user.rows[0].password);
-        if (!isValid) {
-            return res.status(401).json({ error: 'Invalid email or password' });
-        }
-
-        const token = jwt.sign({ userId: user.rows[0].id }, SECRET_KEY, { expiresIn: '1h' });
-        res.status(200).json({
-            token,
-            user: {
-                id: user.rows[0].id,
-                email: user.rows[0].email,
-                name: user.rows[0].name,
-                is_subscriber: user.rows[0].is_subscriber,
-            },
-        });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-
-export const registro = async (req, res) => {
-    const { email, password, name } = req.body;
-    try {
-        const user = await db.query('SELECT * FROM users WHERE email = $1', [email]);
-        if (existing.rows.length > 0) {
-            return res.status(400).json({ error: 'Email already in use' });
-        }
-
-async function hashPassword(password) {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    return hashedPassword;
-}
-        await db.query(
-            'INSERT INTO users (email, password, name, created_at, is_subscriber) VALUES ($1, $2, $3, NOW(), FALSE)',
-            [email, hashedPassword, name]
-        );
-
-        res.status(201).json({ message: ' registered successfully' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
+        })

@@ -1,22 +1,22 @@
 
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import api from '../../constants/api';
+const React, { useState } = 'react'
+const { View, Text, TextInput, Button, StyleSheet, Alert } = 'react-native'
+const api = '../../constants/api'
 
 const Register = ({ navigation }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [name, setName] = useState('')
 
     const handleRegister = async () => {
         try {
-            await api.post('/auth/register', { email, password, name });
-            Alert.alert('Registration successful', 'You can now log in.');
-            navigation.navigate('Login');
+            await api.post('/auth/register', { email, password, name })
+            Alert.alert('Registration successful', 'You can now log in.')
+            navigation.navigate('Login')
         } catch (error) {
-            Alert.alert('Registration failed', error.response?.data?.error || 'Something went wrong');
+            Alert.alert('Registration failed', error.response?.data?.error || 'Something went wrong')
         }
-    };
+    }
 
     return (
         <View style={styles.container}>
@@ -47,8 +47,8 @@ const Register = ({ navigation }) => {
                 color="gray"
             />
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -70,6 +70,6 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderRadius: 5,
     },
-});
+})
 
-export default Register;
+module.exports = Register

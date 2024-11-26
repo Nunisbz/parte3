@@ -1,11 +1,11 @@
-import express from 'express'
-import {registro, login} from '../controlador/controlador_autenticacao.js'
+const express = require('express');
+const router = express.Router();
+const express = require('express');
+const rotas = express.Router();
+// Example route for testing
+rotas.get('/', (req, res) => {
+    res.send('Rota de autenticação funcionando!');
+});
+module.exports = rotas;
 
-
-const rotas = express.Router()
-
-rotas.post('/registro', registro)
-rotas.post('/login', login)
-rotas.put('/change-password/:id', change_password)
-
-export { rotas }
+module.exports = router;

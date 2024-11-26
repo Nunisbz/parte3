@@ -1,21 +1,21 @@
 
-import React, { useEffect, useState } from 'react';
-import {
+const React, { useEffect, useState } = 'react'
+const {
     View,
     Text,
     FlatList,
     TextInput,
     StyleSheet,
     TouchableOpacity,
-} from 'react-native';
-import api from '../../constants/api';
+} = 'react-native'
+const api = '../../constants/api'
 
 const Home = ({ navigation }) => {
-    const [artists, setArtists] = useState([]);
-    const [albums, setAlbums] = useState([]);
-    const [recommendations, setRecommendations] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [searchResults, setSearchResults] = useState(null);
+    const [artists, setArtists] = useState([])
+    const [albums, setAlbums] = useState([])
+    const [recommendations, setRecommendations] = useState([])
+    const [searchQuery, setSearchQuery] = useState('')
+    const [searchResults, setSearchResults] = useState(null)
 
     useEffect(() => {
         // Fetch initial data for recommendations, artists, and albums
@@ -25,30 +25,30 @@ const Home = ({ navigation }) => {
                     api.get('/artists'),
                     api.get('/albums'),
                     api.get('/recommendations'),
-                ]);
-                setArtists(artistsRes.data);
-                setAlbums(albumsRes.data);
-                setRecommendations(recommendationsRes.data);
+                ])
+                setArtists(artistsRes.data)
+                setAlbums(albumsRes.data)
+                setRecommendations(recommendationsRes.data)
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('Error fetching data:', error)
             }
-        };
-        fetchData();
-    }, []);
+        }
+        fetchData()
+    }, [])
 
     const handleSearch = async () => {
         if (!searchQuery.trim()) {
-            setSearchResults(null);
-            return;
+            setSearchResults(null)
+            return
         }
 
         try {
-            const response = await api.get(`/search?q=${searchQuery}`);
-            setSearchResults(response.data);
+            const response = await api.get(`/search?q=${searchQuery}`)
+            setSearchResults(response.data)
         } catch (error) {
-            console.error('Error during search:', error);
+            console.error('Error during search:', error)
         }
-    };
+    }
 
     return (
         <View style={styles.container}>
@@ -138,8 +138,8 @@ const Home = ({ navigation }) => {
                 </View>
             )}
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -169,6 +169,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
     },
-});
+})
 
-export default Home;
+module.exports = Home

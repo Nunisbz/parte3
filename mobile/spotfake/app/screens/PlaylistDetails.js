@@ -1,55 +1,55 @@
 
-import React, { useEffect, useState } from 'react';
-import {
+const React, { useEffect, useState } = 'react'
+const {
     View,
     Text,
     FlatList,
     StyleSheet,
     TouchableOpacity,
     Button,
-} from 'react-native';
-import api from '../../constants/api';
+} = 'react-native'
+const api = '../../constants/api'
 
 const PlaylistDetails = ({ route }) => {
-    const { playlistId } = route.params;
-    const [playlist, setPlaylist] = useState(null);
-    const [songs, setSongs] = useState([]);
-    const [allSongs, setAllSongs] = useState([]);
+    const { playlistId } = route.params
+    const [playlist, setPlaylist] = useState(null)
+    const [songs, setSongs] = useState([])
+    const [allSongs, setAllSongs] = useState([])
 
     useEffect(() => {
         const fetchPlaylistDetails = async () => {
             try {
-                const playlistRes = await api.get(`/playlists/${playlistId}`);
-                const allSongsRes = await api.get('/songs'); // Fetch all available songs
-                setPlaylist(playlistRes.data.playlist);
-                setSongs(playlistRes.data.songs);
-                setAllSongs(allSongsRes.data);
+                const playlistRes = await api.get(`/playlists/${playlistId}`)
+                const allSongsRes = await api.get('/songs') // Fetch all available songs
+                setPlaylist(playlistRes.data.playlist)
+                setSongs(playlistRes.data.songs)
+                setAllSongs(allSongsRes.data)
             } catch (error) {
-                console.error('Error fetching playlist details:', error);
+                console.error('Error fetching playlist details:', error)
             }
-        };
-        fetchPlaylistDetails();
-    }, [playlistId]);
+        }
+        fetchPlaylistDetails()
+    }, [playlistId])
 
     const modifyPlaylist = async (songId, action) => {
         try {
-            await api.put(`/playlists/${playlistId}?action=${action}`, { songId });
+            await api.put(`/playlists/${playlistId}?action=${action}`, { songId })
             if (action === 'add') {
-                setSongs([...songs, allSongs.find((song) => song.id === songId)]);
+                setSongs([...songs, allSongs.find((song) => song.id === songId)])
             } else {
-                setSongs(songs.filter((song) => song.id !== songId));
+                setSongs(songs.filter((song) => song.id !== songId))
             }
         } catch (error) {
-            console.error(`Error ${action === 'add' ? 'adding to' : 'removing from'} playlist:`, error);
+            console.error(`Error ${action === 'add' ? 'adding to' : 'removing ='} playlist:`, error)
         }
-    };
+    }
 
     if (!playlist) {
         return (
             <View style={styles.container}>
                 <Text>Loading...</Text>
             </View>
-        );
+        )
     }
 
     return (
@@ -86,8 +86,8 @@ const PlaylistDetails = ({ route }) => {
                 )}
             />
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -113,6 +113,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
     },
-});
+})
 
-export default PlaylistDetails;
+module.exports = PlaylistDetails

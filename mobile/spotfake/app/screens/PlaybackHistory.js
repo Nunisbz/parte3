@@ -1,22 +1,22 @@
 
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-import api from '../../constants/api';
+const React, { useEffect, useState } = 'react'
+const { View, Text, FlatList, StyleSheet } = 'react-native'
+const api = '../../constants/api'
 
 const PlaybackHistory = ({ route }) => {
-    const [history, setHistory] = useState([]);
+    const [history, setHistory] = useState([])
 
     useEffect(() => {
         const fetchHistory = async () => {
             try {
-                const response = await api.get('/songs/history', { params: { userId: 1 } }); // Simulated user ID
-                setHistory(response.data);
+                const response = await api.get('/songs/history', { params: { userId: 1 } }) // Simulated user ID
+                setHistory(response.data)
             } catch (error) {
-                console.error('Error fetching playback history:', error);
+                console.error('Error fetching playback history:', error)
             }
-        };
-        fetchHistory();
-    }, []);
+        }
+        fetchHistory()
+    }, [])
 
     return (
         <View style={styles.container}>
@@ -32,8 +32,8 @@ const PlaybackHistory = ({ route }) => {
                 )}
             />
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -55,6 +55,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#666',
     },
-});
+})
 
-export default PlaybackHistory;
+module.exports = PlaybackHistory

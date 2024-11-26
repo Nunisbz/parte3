@@ -1,60 +1,60 @@
 
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import api from '../../constants/api';
-import { Audio } from 'expo-av';
+const React, { useEffect, useState } = 'react'
+const { View, Text, FlatList, StyleSheet, TouchableOpacity } = 'react-native'
+const api = '../../constants/api'
+const { Audio } = 'expo-av'
 
 const AlbumDetails = ({ route }) => {
-    const { albumId } = route.params;
-    const [album, setAlbum] = useState(null);
-    const [songs, setSongs] = useState([]);
-    const [audioPlayer, setAudioPlayer] = useState(null);
-    const [currentlyPlaying, setCurrentlyPlaying] = useState(null);
+    const { albumId } = route.params
+    const [album, setAlbum] = useState(null)
+    const [songs, setSongs] = useState([])
+    const [audioPlayer, setAudioPlayer] = useState(null)
+    const [currentlyPlaying, setCurrentlyPlaying] = useState(null)
 
     useEffect(() => {
         const fetchAlbumDetails = async () => {
             try {
-                const response = await api.get(`/albums/${albumId}`);
-                setAlbum(response.data.album);
-                setSongs(response.data.songs);
+                const response = await api.get(`/albums/${albumId}`)
+                setAlbum(response.data.album)
+                setSongs(response.data.songs)
             } catch (error) {
-                console.error('Error fetching album details:', error);
+                console.error('Error fetching album details:', error)
             }
-        };
-        fetchAlbumDetails();
+        }
+        fetchAlbumDetails()
 
         return () => {
             if (audioPlayer) {
-                audioPlayer.unloadAsync();
+                audioPlayer.unloadAsync()
             }
-        };
-    }, [albumId]);
+        }
+    }, [albumId])
 
     const playSong = async (songId) => {
         try {
             if (audioPlayer) {
-                await audioPlayer.unloadAsync();
+                await audioPlayer.unloadAsync()
             }
-            const response = await api.get(`/songs/${songId}/play`);
-            const { audio_url } = response.data;
+            const response = await api.get(`/songs/${songId}/play`)
+            const { audio_url } = response.data
 
-            const newAudioPlayer = new Audio.Sound();
-            await newAudioPlayer.loadAsync({ uri: audio_url });
-            await newAudioPlayer.playAsync();
+            const newAudioPlayer = new Audio.Sound()
+            await newAudioPlayer.loadAsync({ uri: audio_url })
+            await newAudioPlayer.playAsync()
 
-            setAudioPlayer(newAudioPlayer);
-            setCurrentlyPlaying(songId);
+            setAudioPlayer(newAudioPlayer)
+            setCurrentlyPlaying(songId)
         } catch (error) {
-            console.error('Error playing song:', error);
+            console.error('Error playing song:', error)
         }
-    };
+    }
 
     if (!album) {
         return (
             <View style={styles.container}>
                 <Text>Loading...</Text>
             </View>
-        );
+        )
     }
 
     return (
@@ -76,8 +76,8 @@ const AlbumDetails = ({ route }) => {
                 )}
             />
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -104,6 +104,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'green',
     },
-});
+})
 
-export default AlbumDetails;
+module.exports = AlbumDetails

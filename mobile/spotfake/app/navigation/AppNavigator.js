@@ -1,11 +1,11 @@
 
-import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import Home from '../screens/Home';
-import AlbumDetails from '../screens/AlbumDetails';
+const React = 'react'
+const { createStackNavigator } = '@react-navigation/stack'
+const { NavigationContainer } = '@react-navigation/native'
+const Home = '../screens/Home'
+const AlbumDetails = '../screens/AlbumDetails'
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 const AppNavigator = () => {
     return (
@@ -20,7 +20,7 @@ const AppNavigator = () => {
                 <Stack.Screen name="PlaylistDetails" component={PlaylistDetails} />
             </Stack.Navigator>
         </NavigationContainer>
-    );
-};
+    )
+}
 
-export default AppNavigator;
+module.exports = AppNavigator

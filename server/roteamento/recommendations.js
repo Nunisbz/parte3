@@ -1,8 +1,7 @@
+const express = require('express');
 
-import express from 'express';
-const router = express.Router();
-import db from '../db.js';
-
+const router = express.Router()
+const db = '../db.js'
 // Get recommendations based on user activity
 router.get('/', async (req, res) => {
     try {
@@ -17,12 +16,16 @@ router.get('/', async (req, res) => {
                 LIMIT 10
             ) as popular_songs
             ON songs.id = popular_songs.song_id
-        `);
-
-        res.status(200).json(recommendations.rows);
+        `)
+        res.status(200).json(recommendations.rows)
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message })
     }
-});
+})
+module.exports = router
 
-export default router;
+module.exports = router;
+
+const router = express.Router();
+
+module.exports = router;
